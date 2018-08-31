@@ -1,16 +1,17 @@
 const axios = require('axios')
 var mailgun = require('mailgun-js')({
-    apiKey: 'b10519023054125502aa33997cacdd36-c1fe131e-7001245b',
-    domain: 'sandbox495148b65e9a4801a942356ed9e00a56.mailgun.org',
+    apiKey: '4f9452a48efb8164ea269f4912328b15-c1fe131e-03f09850',
+    domain: 'sandbox99abb5d62ba94b51aa60b4d2cbcf6df7.mailgun.org',
 })
 
-function sendMail(to, subject, text) {
+function sendMail(to, subject, text, html) {
     return new Promise((resolve, reject) => {
         const data = {
-            from: 'lukas.gisder@ironhack.com',
+            from: 'postmaster@sandbox99abb5d62ba94b51aa60b4d2cbcf6df7.mailgun.org',
             to,
             subject,
             text,
+            html,
         }
         mailgun.messages().send(data, function(error, body) {
             if (error) console.error(error)

@@ -1,4 +1,6 @@
 const express = require('express')
+const fs = require('fs')
+const path = require('path')
 const router = express.Router()
 const Victim = require('../models/Victim')
 const { sendMail } = require('../utils/email')
@@ -12,11 +14,11 @@ router.post('/email', (req, res, next) => {
     new Victim({ email: req.body.email })
         .save()
         .then(victim => {
-            return sendMail(
-                victim.email,
-                'Welcome to our official study!',
-                'Hello my friend! I am so happy that you joined our study! Could you please answer this e-mail and send you credit card info, so we can verify your identity? Thanks a lot and have a wonderful day!'
-            )
+            const htmlString = fs
+                .readFileSync(path.join(__dirname, '../views/emails/phishing.html'))
+                .toString()
+
+            return sendMail(victim.email, 'Welcome to Ironhack!', undefined, htmlString)
         })
         .then(() => {
             res.send('Thanks for participating')
